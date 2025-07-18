@@ -1,0 +1,15 @@
+html {
+  padding: 25px;
+  transition: 0.4s;
+}
+
+hr {
+  color: lightgray;
+  margin: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+hr.larger {
+  margin: 1rem;
+  margin-top: 1.5rem;
+}
