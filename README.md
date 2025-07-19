@@ -8,5 +8,5 @@ This is my portfolio website made in Rust with [Yew](https://yew.rs/). Made usin
 4. Make the `src/tailwind.css` file by doing `tailwindcss -o src/tailwind.css`.
 
 # Running
-To build the css, use the Tailwind CLI by doing `tailwindcss -o src/tailwindcss` (you can also add the `-w` flag to make it watch for changes and auto-compile the CSS file).
-To run the website, run `trunk serve` (you can also add the `--open` to open the URL in your default browser).
+- To build the css, use the Tailwind CLI by doing `tailwindcss -o src/tailwindcss` (you can also add the `-w` flag to make it watch for changes and auto-compile the CSS file).
+- To run the website, run `trunk serve` (you can also add the `--open` to open the URL in your default browser).
