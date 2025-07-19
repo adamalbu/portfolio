@@ -1,5 +1,5 @@
 # Portfolio website
-This is my portfolio website made in Rust with [Yew](https://yew.rs/).
+This is my portfolio website made in Rust with [Yew](https://yew.rs/). Made using just NeoVim.
 
 # Installation
 1. Install [Rust](https://www.rust-lang.org/tools/install).
