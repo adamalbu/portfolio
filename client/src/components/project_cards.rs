@@ -1,20 +1,6 @@
+use portfolio_common::Project;
 use yew::prelude::*;
 use yew::virtual_dom::AttrValue;
-
-#[derive(PartialEq)]
-pub struct Project {
-    pub name: String,
-    pub description: String,
-}
-
-impl Project {
-    pub fn new(name: String, description: String) -> Self{
-        Self {
-            name,
-            description,
-        }
-    }
-}
 
 #[derive(Properties, Clone, PartialEq)]
 struct ProjectCardProps {
@@ -45,7 +31,10 @@ pub fn project_cards_list(props: &ProjectCardsListProps) -> Html {
     let filtered_projects = props.projects.iter().filter(|project| {
         let filter_text = &props.filter.as_str();
         if filter_text.chars().any(|c| !c.is_whitespace()) {
-            project.name.to_lowercase().contains(&filter_text.to_lowercase())
+            project
+                .name
+                .to_lowercase()
+                .contains(&filter_text.to_lowercase())
         } else {
             true
         }
@@ -58,5 +47,4 @@ pub fn project_cards_list(props: &ProjectCardsListProps) -> Html {
             }).collect::<Html>() }
         </div>
     }
-} 
-
+}
