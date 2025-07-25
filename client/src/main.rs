@@ -8,6 +8,8 @@ use portfolio_common::Project;
 
 mod components;
 
+const TITLE_NAME: &'static str = "website.com";
+
 #[function_component(App)]
 fn app() -> Html {
     let projects = use_state(|| vec![]);
@@ -39,17 +41,20 @@ fn app() -> Html {
 
     html! {
         <>
-        <h1 class="text-3xl text-center font-medium font-mono">{ "adamprojects.net" }</h1>
-        <hr class="larger"/>
-        <div class="font-mono mb-2">
-            <span class="text-green-500">{ "adamalbu@adamprojects" }</span>
-            { ":" }
-            <span class="text-blue-500">{ "projects" }</span>
-            { "$ ls | grep -F \"" }
-            <LineInput oninput={filter_projects} />
-            {"\""}
-        </div>
-        <ProjectsList projects={ (*projects).clone() } filter={ (*filter).clone() } />
+            <div class="flex flex-row place-content-between w-[calc(100%-4rem)] mx-auto">
+                <h1 class="text-3xl text-center font-medium font-mono">{ TITLE_NAME }</h1>
+                <button class="rounded-md p-1 bg-linear-to-t from-neutral-300 to-white transition ition hover:from-neutral-400 hover:to-neutral-100 hover:cursor-pointer filter hover:drop-shadow-lg">{ "Log in" }</button>
+            </div>
+            <hr class="larger"/>
+            <div class="font-mono mb-2">
+                <span class="text-green-500">{ "adamalbu@adamprojects" }</span>
+                { ":" }
+                <span class="text-blue-500">{ "projects" }</span>
+                { "$ ls | grep -F \"" }
+                <LineInput oninput={filter_projects} />
+                {"\""}
+            </div>
+            <ProjectsList projects={ (*projects).clone() } filter={ (*filter).clone() } />
         </>
     }
 }

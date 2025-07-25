@@ -6,7 +6,6 @@ const PROJECTS_PATH: &'static str = "data/projects.json";
 
 #[get("api/projects")]
 async fn get_projects() -> HttpResponse {
-    println!("projects");
     let contents = match fs::read_to_string(PROJECTS_PATH) {
         Ok(contents) => contents,
         Err(err) => {
