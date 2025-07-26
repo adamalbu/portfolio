@@ -1,7 +1,7 @@
 use yew::prelude::*;
 use yew_router::prelude::*;
 
-use pages::Home;
+use pages::{Home, Login};
 
 mod components;
 mod pages;
@@ -10,12 +10,17 @@ mod pages;
 enum Route {
     #[at("/")]
     Home,
+    #[at("/login")]
+    Login,
 }
 
 fn switch(routes: Route) -> Html {
     match routes {
         Route::Home => html! {
             <Home />
+        },
+        Route::Login => html! {
+            <Login />
         },
     }
 }
