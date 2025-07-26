@@ -1,15 +1,37 @@
+@import "tailwindcss";
+
 html {
-  padding: 25px;
-  transition: 0.4s;
+    padding: 25px;
+    transition: 0.4s;
 }
 
 hr {
-  color: lightgray;
-  margin: 0.25rem;
-  margin-top: 0.5rem;
+    color: lightgray;
+    margin: 0.25rem;
+    margin-top: 0.5rem;
 }
 
 hr.larger {
-  margin: 1rem;
-  margin-top: 1.5rem;
+    margin: 1rem;
+    margin-top: 1.5rem;
+}
+
+button {
+    @apply rounded-md p-1 border border-gray-200 shadow-md transition;
+}
+
+button:hover {
+    @apply cursor-pointer bg-gray-200;
+}
+
+button:active {
+    @apply translate-y-1 shadow-inner;
+}
+
+input {
+    @apply border border-gray-200 rounded-md;
+}
+
+input:focus {
+    @apply outline-none ring ring-gray-400;
 }

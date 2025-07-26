@@ -1,8 +1,11 @@
+use crate::Route;
 use crate::components::{LineInput, ProjectsList};
+
 use gloo_net::http::Request;
 use portfolio_common::Project;
 use yew::platform::spawn_local;
 use yew::prelude::*;
+use yew_router::hooks::use_navigator;
 
 const TITLE_NAME: &'static str = "website.com";
 
@@ -35,11 +38,17 @@ pub fn home() -> Html {
         })
     };
 
+    let navigator = use_navigator().unwrap();
+    let go_to_login = Callback::from(move |_| navigator.push(&Route::Login));
+
     html! {
         <>
             <div class="flex flex-row place-content-between w-[calc(100%-4rem)] mx-auto">
                 <h1 class="text-3xl text-center font-medium font-mono">{ TITLE_NAME }</h1>
-                <button class="rounded-md p-1 bg-linear-to-t from-neutral-300 to-white transition ition hover:from-neutral-400 hover:to-neutral-100 hover:cursor-pointer filter hover:drop-shadow-lg">{ "Log in" }</button>
+                <button
+                    onclick={go_to_login} >
+                    { "Log in" }
+                </button>
             </div>
             <hr class="larger"/>
             <div class="font-mono mb-2">
