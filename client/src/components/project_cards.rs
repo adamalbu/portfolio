@@ -36,7 +36,7 @@ pub fn project_cards_list(props: &ProjectCardsListProps) -> Html {
                 <div class="rounded-md w-55 p-4 bg-accent-secondary hover:z-10 transition hover:scale-110 flex flex-col items-center justify-center">
                     <h1 class="text-center text-text-dark font-medium text-lg font-bold">{ "Create" }</h1>
                     <div class="w-full h-full flex items-center justify-center">
-                        <div class="inset-shadow-sm/50 w-30 h-30 rounded-full">
+                        <div class="w-30 h-30 rounded-full border-2 border-text-dark">
                             <svg class="w-full h-full p-2 text-text-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                                 <line x1="12" y1="5" x2="12" y2="19"></line>
                                 <line x1="5" y1="12" x2="19" y2="12"></line>

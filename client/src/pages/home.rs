@@ -72,7 +72,9 @@ pub fn home() -> Html {
                 }
             </div>
             <hr class="larger"/>
-            <ProjectsList projects={ (*projects).clone() } show_create_new={ *is_admin } />
+            <div class="flex flex-col justify-center items-center">
+                <ProjectsList projects={ (*projects).clone() } show_create_new={ *is_admin } />
+            </div>
         </>
     }
 }
