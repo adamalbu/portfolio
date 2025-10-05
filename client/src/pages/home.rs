@@ -89,7 +89,7 @@ pub fn home() -> Html {
                 <LineInput oninput={filter_projects} />
                 {"\""}
             </div>
-            <ProjectsList projects={ (*projects).clone() } filter={ (*filter).clone() } />
+            <ProjectsList projects={ (*projects).clone() } filter={ (*filter).clone() } show_create_new={ *is_admin } />
         </>
     }
 }
