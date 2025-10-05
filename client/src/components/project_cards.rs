@@ -22,30 +22,16 @@ fn project_card(props: &ProjectCardProps) -> Html {
 #[derive(Properties, PartialEq)]
 pub struct ProjectCardsListProps {
     pub projects: Vec<Project>,
-    #[prop_or("".into())]
-    pub filter: AttrValue,
     pub show_create_new: bool,
 }
 
 #[function_component(ProjectsList)]
 pub fn project_cards_list(props: &ProjectCardsListProps) -> Html {
-    let filtered_projects = props.projects.iter().filter(|project| {
-        let filter_text = &props.filter.as_str();
-        if filter_text.chars().any(|c| !c.is_whitespace()) {
-            project
-                .name
-                .to_lowercase()
-                .contains(&filter_text.to_lowercase())
-        } else {
-            true
-        }
-    });
-
     html! {
         <div class="flex space-x-4 justify-center">
-            { filtered_projects.map(|project| html! {
+            { for props.projects.iter().map(|project| html! {
                 <ProjectCard name={project.name.clone()} description={project.description.clone()} />
-            }).collect::<Html>() }
+            }) }
             if props.show_create_new {
                 <div class="rounded-md w-55 p-4 bg-accent-secondary hover:z-10 transition hover:scale-110 flex flex-col items-center justify-center">
                     <h1 class="text-center text-text-dark font-medium text-lg font-bold">{ "Create" }</h1>

@@ -28,15 +28,6 @@ pub fn home() -> Html {
         });
     }
 
-    let filter = use_state(String::new);
-
-    let filter_projects = {
-        let filter = filter.clone();
-        Callback::from(move |text: String| {
-            filter.set(text);
-        })
-    };
-
     let navigator = use_navigator().unwrap();
     let go_to_login = {
         let navigator = navigator.clone();
@@ -81,15 +72,7 @@ pub fn home() -> Html {
                 }
             </div>
             <hr class="larger"/>
-            <div class="font-mono mb-2">
-                <span class="text-green-500">{ "adamalbu@adamprojects" }</span>
-                { ":" }
-                <span class="text-blue-500">{ "projects" }</span>
-                { "$ ls | grep -F \"" }
-                <LineInput oninput={filter_projects} />
-                {"\""}
-            </div>
-            <ProjectsList projects={ (*projects).clone() } filter={ (*filter).clone() } show_create_new={ *is_admin } />
+            <ProjectsList projects={ (*projects).clone() } show_create_new={ *is_admin } />
         </>
     }
 }
