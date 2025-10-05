@@ -9,3 +9,5 @@ actix-web = "4.11.0"
 serde = { version = "1.0.219", features = ["derive"] }
 serde_json = "1.0.141"
 argon2 = { version = "0.5.3", features = ["password-hash"] }
+jsonwebtoken = { version = "10.0.0", features = ["rust_crypto"] }
+dotenvy = "0.15.7"

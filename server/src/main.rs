@@ -1,10 +1,19 @@
-use actix_web::body::MessageBody;
-use actix_web::{App, HttpResponse, HttpServer, get, post, web::Json};
-use argon2::password_hash::{PasswordHasher, Salt, SaltString};
-use argon2::{Argon2, Params, PasswordHash, PasswordVerifier};
-use portfolio_common::{LoginRequest, Project};
-use std::fs;
-use std::sync::LazyLock;
+use actix_web::{
+    App, HttpRequest, HttpResponse, HttpServer,
+    cookie::{
+        Cookie,
+        time::{Duration, UtcDateTime},
+    },
+    get, post,
+    web::Json,
+};
+use argon2::{Argon2, PasswordHash, PasswordVerifier, password_hash::Salt};
+use jsonwebtoken::{
+    DecodingKey, EncodingKey, Header, Validation, decode,
+    jws::{Jws, encode},
+};
+use portfolio_common::{Claims, LoginRequest, Project};
+use std::{error::Error, fs, sync::LazyLock};
 
 const PROJECTS_PATH: &'static str = "data/projects.json";
 static HASHED_PASSWORD: LazyLock<PasswordHash<'_>> = LazyLock::new(|| {
@@ -15,6 +24,11 @@ static HASHED_PASSWORD: LazyLock<PasswordHash<'_>> = LazyLock::new(|| {
 });
 static SALT: LazyLock<Salt<'_>> =
     LazyLock::new(|| Salt::from_b64("23pZSQaNArI4").expect("Failed to create salt"));
+
+static JWT_SECRET: LazyLock<Vec<u8>> = LazyLock::new(|| {
+    dotenvy::dotenv().ok();
+    std::env::var("JWT_SECRET").unwrap().into_bytes()
+});
 
 #[get("api/projects")]
 async fn get_projects() -> HttpResponse {
@@ -47,17 +61,72 @@ async fn login(req: Json<LoginRequest>) -> HttpResponse {
     }
 
     match ctx.verify_password(req.password.as_bytes(), &*HASHED_PASSWORD) {
-        Ok(()) => HttpResponse::Ok().body("TODO"),
-        Err(_) => HttpResponse::Unauthorized().body("Invalid username or password"),
+        Err(_) => return HttpResponse::Unauthorized().body("Invalid username or password"),
+        Ok(()) => {}
+    };
+
+    let expiration = UtcDateTime::now()
+        .checked_add(Duration::days(7))
+        .unwrap()
+        .unix_timestamp() as usize;
+
+    let claims = Claims { exp: expiration };
+
+    let jws: Jws<Claims> = encode(
+        &Header::default(),
+        Some(&claims),
+        &EncodingKey::from_secret(&*JWT_SECRET),
+    )
+    .unwrap();
+
+    let token = format!("{}.{}.{}", jws.protected, jws.payload, jws.signature);
+
+    let cookie = Cookie::build("auth_token", token)
+        .path("/")
+        .http_only(true)
+        .same_site(actix_web::cookie::SameSite::Lax)
+        .secure(cfg!(not(debug_assertions))) // Secure in prod, insecure in debug
+        .max_age(Duration::days(7))
+        .finish();
+
+    println!("cookie: {:#?}", cookie);
+    HttpResponse::Ok().cookie(cookie).body("Login successful")
+}
+
+fn validate(req: &HttpRequest) -> Result<(), actix_web::Error> {
+    let jwt_cookie = req
+        .cookie("auth_token")
+        .ok_or_else(|| actix_web::error::ErrorUnauthorized("No auth token"))?;
+
+    decode::<Claims>(
+        jwt_cookie.value(),
+        &DecodingKey::from_secret(&*JWT_SECRET),
+        &Validation::default(),
+    )
+    .map_err(|_| actix_web::error::ErrorUnauthorized("Invalid token"))?;
+
+    Ok(())
+}
+
+#[get("api/auth-status")]
+async fn auth_status(req: HttpRequest) -> HttpResponse {
+    match validate(&req) {
+        Ok(()) => HttpResponse::Ok().body("OK"),
+        Err(e) => HttpResponse::Unauthorized().body(format!("{}", e)),
     }
 }
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| App::new().service(get_projects).service(login))
-        .bind(("127.0.0.1", 8000))?
-        .run()
-        .await
+    HttpServer::new(|| {
+        App::new()
+            .service(get_projects)
+            .service(login)
+            .service(auth_status)
+    })
+    .bind(("127.0.0.1", 8000))?
+    .run()
+    .await
 }
 
 // fn main() {

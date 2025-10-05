@@ -18,7 +18,7 @@ pub struct LoginRequest {
     pub password: String,
 }
 
-#[derive(Serialize, Deserialize)]
-pub struct Claim {
-    exp: usize,
+#[derive(Clone, Serialize, Deserialize)]
+pub struct Claims {
+    pub exp: usize,
 }
