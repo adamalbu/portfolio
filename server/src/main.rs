@@ -93,6 +93,16 @@ async fn login(req: Json<LoginRequest>) -> HttpResponse {
     HttpResponse::Ok().cookie(cookie).body("Login successful")
 }
 
+#[post("/api/logout")]
+async fn logout() -> HttpResponse {
+    let cookie = Cookie::build("auth_token", "")
+        .path("/")
+        .max_age(Duration::seconds(0))
+        .finish();
+
+    HttpResponse::Ok().cookie(cookie).finish()
+}
+
 fn validate(req: &HttpRequest) -> Result<(), actix_web::Error> {
     let jwt_cookie = req
         .cookie("auth_token")
@@ -122,6 +132,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .service(get_projects)
             .service(login)
+            .service(logout)
             .service(auth_status)
     })
     .bind(("127.0.0.1", 8000))?

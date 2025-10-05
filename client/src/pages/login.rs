@@ -1,12 +1,16 @@
-use std::sync::Arc;
-
 use gloo_net::http::Request;
 use web_sys::wasm_bindgen::JsCast;
 use yew::{platform::spawn_local, prelude::*};
+use yew_router::{hooks::use_navigator, navigator};
+
+use crate::Route;
 
 #[function_component(Login)]
 pub fn login() -> Html {
-    let login_on_click = Callback::from(|_| {
+    let navigator = use_navigator().unwrap();
+    let login_on_click = Callback::from(move |_| {
+        let navigator = navigator.clone();
+
         let document = web_sys::window().unwrap().document().unwrap();
         let username = document
             .get_element_by_id("username")
@@ -32,10 +36,9 @@ pub fn login() -> Html {
                 .await
                 .unwrap();
 
-            web_sys::console::log_1(&"Response: {response}".into());
-
             if response.status() == 200 {
                 web_sys::console::log_1(&"Login successful".into());
+                navigator.push(&Route::Home);
             } else {
                 web_sys::console::log_1(&format!("Login failed: {}", response.status()).into());
             }
