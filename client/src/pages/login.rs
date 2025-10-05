@@ -46,7 +46,7 @@ pub fn login() -> Html {
     });
 
     html! {
-        <div class="border rounded-sm items-center flex flex-col space-y-3 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-fit p-10 shadow-xl/20">
+        <div class="rounded-sm items-center flex flex-col space-y-3 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-fit p-10 shadow-xl/20 bg-bg-secondary text-text-dark">
             <div class="space-x-3">
                 <label for="username">{ "Username:" }</label>
                 <input type="text" id="username" name="username" required=true />

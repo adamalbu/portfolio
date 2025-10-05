@@ -11,10 +11,10 @@ struct ProjectCardProps {
 #[function_component(ProjectCard)]
 fn project_card(props: &ProjectCardProps) -> Html {
     html! {
-        <div class="rounded-md w-55 p-4 bg-white hover:z-10 transition filter drop-shadow-lg hover:drop-shadow-2xl hover:scale-105">
-            <h1 class="text-center font-medium text-lg">{ &*props.name }</h1>
+        <div class="rounded-md w-55 p-4 bg-bg-secondary hover:z-10 transition hover:scale-105">
+            <h1 class="text-center text-text-dark font-medium text-lg">{ &*props.name }</h1>
             <hr />
-            <p class="text-left">{ &*props.description }</p>
+            <p class="text-left text-text-dark">{ &*props.description }</p>
         </div>
     }
 }

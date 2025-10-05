@@ -1,12 +1,41 @@
 @import "tailwindcss";
 
+@import "tailwindcss";
+
+@theme {
+    --color-bg-primary: oklch(0.3487 0.0327 224.53);
+    --color-bg-secondary: oklch(0.8369 0.063 92.15);
+    --color-text-light: oklch(0.8369 0.063 92.15);
+    --color-text-dark: oklch(0.3487 0.0327 224.53);
+    --color-accent-primary: oklch(0.4763 0.1629 16.47);
+    --color-accent-secondary: oklch(0.7242 0.1303 71.82);
+    --color-highlight: oklch(0.5964 0.1326 48.06);
+}
+
+::-moz-selection {
+    background-color: var(--color-highlight);
+    color: var(--color-text-light);
+}
+
 html {
     padding: 25px;
     transition: 0.4s;
+    padding: 25px;
+    transition: 0.4s;
+    padding: 25px;
+    transition: 0.4s;
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-light);
 }
 
 hr {
     color: lightgray;
+    margin: 0.25rem;
+    margin-top: 0.5rem;
+    color: lightgray;
+    margin: 0.25rem;
+    margin-top: 0.5rem;
+    color: var(--color-highlight);
     margin: 0.25rem;
     margin-top: 0.5rem;
 }
@@ -16,8 +45,16 @@ hr.larger {
     margin-top: 1.5rem;
 }
 
+input {
+    @apply border border-highlight rounded-md p-1;
+}
+
+input:focus {
+    @apply outline-none ring ring-accent-primary;
+}
+
 button {
-    @apply rounded-md p-1 border border-gray-200 shadow-md transition;
+    @apply rounded-md p-1 transition bg-accent-secondary text-text-dark;
 }
 
 button:hover {
@@ -26,12 +63,4 @@ button:hover {
 
 button:active {
     @apply translate-y-1 shadow-inner;
-}
-
-input {
-    @apply border border-gray-200 rounded-md;
-}
-
-input:focus {
-    @apply outline-none ring ring-gray-400;
 }
