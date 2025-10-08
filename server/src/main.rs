@@ -13,7 +13,7 @@ use jsonwebtoken::{
     jws::{Jws, encode},
 };
 use portfolio_common::{Claims, LoginRequest, Project};
-use std::{error::Error, fs, sync::LazyLock};
+use std::{fs, io, sync::LazyLock};
 
 const PROJECTS_PATH: &'static str = "data/projects.json";
 static HASHED_PASSWORD: LazyLock<PasswordHash<'_>> = LazyLock::new(|| {
@@ -30,13 +30,17 @@ static JWT_SECRET: LazyLock<Vec<u8>> = LazyLock::new(|| {
     std::env::var("JWT_SECRET").unwrap().into_bytes()
 });
 
-#[get("api/projects")]
-async fn get_projects() -> HttpResponse {
+enum GetProjectError {
+    FailedToReadFile,
+    FailedToDeserialize,
+}
+
+fn get_projects() -> Result<Vec<Project>, GetProjectError> {
     let contents = match fs::read_to_string(PROJECTS_PATH) {
         Ok(contents) => contents,
         Err(err) => {
             eprintln!("Error reading file: {}", err);
-            return HttpResponse::InternalServerError().finish();
+            return Err(GetProjectError::FailedToReadFile);
         }
     };
 
@@ -44,11 +48,57 @@ async fn get_projects() -> HttpResponse {
         Ok(projects) => projects,
         Err(err) => {
             eprintln!("Error parsing JSON: {}", err);
+            return Err(GetProjectError::FailedToDeserialize);
+        }
+    };
+
+    Ok(projects)
+}
+
+#[get("api/projects")]
+async fn get_projects_request() -> HttpResponse {
+    let projects = match get_projects() {
+        Ok(projects) => projects,
+        Err(_err) => {
             return HttpResponse::InternalServerError().finish();
         }
     };
 
     HttpResponse::Ok().json(projects)
+}
+
+#[post("api/new_project")]
+async fn new_project(req: HttpRequest, project: Json<Project>) -> HttpResponse {
+    if let Err(e) = validate(&req) {
+        return HttpResponse::Unauthorized().body(format!("{}", e));
+    }
+
+    let mut projects = match get_projects() {
+        Ok(projects) => projects,
+        Err(_err) => {
+            return HttpResponse::InternalServerError().finish();
+        }
+    };
+
+    projects.push(Project::new(
+        project.name.clone(),
+        project.description.clone(),
+    ));
+
+    let updated_contents = match serde_json::to_string_pretty(&projects) {
+        Ok(json) => json,
+        Err(err) => {
+            eprintln!("Error serializing JSON: {}", err);
+            return HttpResponse::InternalServerError().finish();
+        }
+    };
+
+    if let Err(err) = fs::write(PROJECTS_PATH, updated_contents) {
+        eprintln!("Error writing to file: {}", err);
+        return HttpResponse::InternalServerError().finish();
+    };
+
+    HttpResponse::Ok().finish()
 }
 
 #[post("api/login")]
@@ -89,7 +139,6 @@ async fn login(req: Json<LoginRequest>) -> HttpResponse {
         .max_age(Duration::days(7))
         .finish();
 
-    println!("cookie: {:#?}", cookie);
     HttpResponse::Ok().cookie(cookie).body("Login successful")
 }
 
@@ -118,7 +167,7 @@ fn validate(req: &HttpRequest) -> Result<(), actix_web::Error> {
     Ok(())
 }
 
-#[get("api/auth-status")]
+#[get("api/auth_status")]
 async fn auth_status(req: HttpRequest) -> HttpResponse {
     match validate(&req) {
         Ok(()) => HttpResponse::Ok().body("OK"),
@@ -130,7 +179,8 @@ async fn auth_status(req: HttpRequest) -> HttpResponse {
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
-            .service(get_projects)
+            .service(get_projects_request)
+            .service(new_project)
             .service(login)
             .service(logout)
             .service(auth_status)
@@ -139,11 +189,3 @@ async fn main() -> std::io::Result<()> {
     .run()
     .await
 }
-
-// fn main() {
-//     let ctx = Argon2::default();
-//     match ctx.verify_password("asdf".as_bytes(), &*HASHED_PASSWORD) {
-//         Ok(()) => println!("Ok"),
-//         Err(e) => eprintln!("Err: {}", e),
-//     };
-// }

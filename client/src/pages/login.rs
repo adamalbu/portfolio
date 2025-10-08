@@ -1,7 +1,7 @@
 use gloo_net::http::Request;
 use web_sys::wasm_bindgen::JsCast;
 use yew::{platform::spawn_local, prelude::*};
-use yew_router::{hooks::use_navigator, navigator};
+use yew_router::hooks::use_navigator;
 
 use crate::Route;
 

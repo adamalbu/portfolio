@@ -1,6 +1,8 @@
+use crate::Route;
 use portfolio_common::Project;
 use yew::prelude::*;
 use yew::virtual_dom::AttrValue;
+use yew_router::hooks::use_navigator;
 
 #[derive(Properties, Clone, PartialEq)]
 struct ProjectCardProps {
@@ -27,13 +29,20 @@ pub struct ProjectCardsListProps {
 
 #[function_component(ProjectsList)]
 pub fn project_cards_list(props: &ProjectCardsListProps) -> Html {
+    let navigator = use_navigator().unwrap();
+
+    let new_project_on_click = {
+        let navigator = navigator.clone();
+        Callback::from(move |_: MouseEvent| navigator.push(&Route::NewProject))
+    };
+
     html! {
         <div class="flex space-x-4 justify-center">
             { for props.projects.iter().map(|project| html! {
                 <ProjectCard name={project.name.clone()} description={project.description.clone()} />
             }) }
             if props.show_create_new {
-                <div class="rounded-md w-55 p-4 bg-accent-secondary hover:z-10 transition hover:scale-110 flex flex-col items-center justify-center">
+                <div onclick={new_project_on_click} class="rounded-md w-55 p-4 bg-accent-secondary hover:z-10 transition hover:scale-110 flex flex-col items-center justify-center">
                     <h1 class="text-center text-text-dark font-medium text-lg font-bold">{ "Create" }</h1>
                     <div class="w-full h-full flex items-center justify-center">
                         <div class="w-30 h-30 rounded-full border-2 border-text-dark">

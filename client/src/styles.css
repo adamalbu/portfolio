@@ -45,7 +45,8 @@ hr.larger {
     margin-top: 1.5rem;
 }
 
-input {
+input,
+textarea {
     @apply border border-highlight rounded-md p-1;
 }
 

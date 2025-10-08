@@ -539,7 +539,7 @@ hr.larger {
   margin: 1rem;
   margin-top: 1.5rem;
 }
-input {
+input, textarea {
   border-radius: var(--radius-md);
   border-style: var(--tw-border-style);
   border-width: 1px;

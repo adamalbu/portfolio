@@ -1,5 +1,5 @@
 use crate::Route;
-use crate::components::{LineInput, ProjectsList};
+use crate::components::ProjectsList;
 
 use gloo_net::http::Request;
 use portfolio_common::Project;
