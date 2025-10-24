@@ -1,6 +1,3 @@
-target/
-
-# client
 # build output
 dist/
 
@@ -19,3 +16,9 @@ pnpm-debug.log*
 # environment variables
 .env
 .env.production
+
+# macOS-specific files
+.DS_Store
+
+# jetbrains setting folder
+.idea/
