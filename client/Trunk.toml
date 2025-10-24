@@ -1,8 +1,0 @@
-# TODO: Fix
-[[hooks]]
-stage = "post_build"
-command = "sh"
-command_arguments = ["-c", "npx tailwindcss -i src/styles.css -o src/tailwind.css"]
-
-[[proxy]]
-backend = "http://localhost:8000/api"

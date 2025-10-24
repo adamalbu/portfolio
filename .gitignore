@@ -1,3 +1,1 @@
-/target
-/client/dist
-client/src/tailwind.css
+target/

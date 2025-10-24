@@ -12,8 +12,10 @@ use jsonwebtoken::{
     DecodingKey, EncodingKey, Header, Validation, decode,
     jws::{Jws, encode},
 };
-use portfolio_common::{Claims, LoginRequest, Project};
+use models::{Claims, LoginRequest, Project};
 use std::{fs, io, sync::LazyLock};
+
+mod models;
 
 const PROJECTS_PATH: &'static str = "data/projects.json";
 static HASHED_PASSWORD: LazyLock<PasswordHash<'_>> = LazyLock::new(|| {
