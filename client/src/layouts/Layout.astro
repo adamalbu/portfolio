@@ -1,5 +1,7 @@
 ---
 import "../styles/global.css";
+
+import Header from "../components/Header.astro";
 ---
 
 <!doctype html>
@@ -11,16 +13,10 @@ import "../styles/global.css";
         <meta name="generator" content={Astro.generator} />
         <title>Astro Basics</title>
     </head>
-    <body>
-        <slot />
+    <body class="flex">
+        <Header />
+        <main class="mt-20 px-15">
+            <slot />
+        </main>
     </body>
 </html>
-
-<style>
-    html,
-    body {
-        margin: 0;
-        width: 100%;
-        height: 100%;
-    }
-</style>

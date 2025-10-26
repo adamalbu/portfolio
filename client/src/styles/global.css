@@ -1,1 +1,39 @@
 @import "tailwindcss";
+/*
+@theme {
+    --color-text: oklch(93.41% 0.021 17.53);
+    --color-background: oklch(14.74% 0.023 26.57);
+    --color-primary: oklch(74.31% 0.088 23.78);
+    --color-secondary: oklch(49.19% 0.085 65.14);
+    --color-accent: oklch(76.14% 0.106 86.53);
+}*/
+
+@layer base {
+    @theme {
+        --color-text: oklch(16.59% 0.034 21.41);
+        --color-background: oklch(95.52% 0.013 23.2);
+        --color-primary: oklch(37.58% 0.104 27.15);
+        --color-secondary: oklch(77.33% 0.081 68.02);
+        --color-accent: oklch(61.41% 0.104 85.14);
+    }
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --color-text: oklch(93.41% 0.021 17.53);
+            --color-background: oklch(14.74% 0.023 26.57);
+            --color-primary: oklch(74.31% 0.088 23.78);
+            --color-secondary: oklch(49.19% 0.085 65.14);
+            --color-accent: oklch(76.14% 0.106 86.53);
+        }
+    }
+}
+
+html,
+body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+}
+
+::selection {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+}
