@@ -14,6 +14,7 @@ const projects: CollectionEntry<"projects">[] = await getCollection("projects");
                     title={project.data.name}
                     description={project.data.description}
                     link=`/project/${project.id}`
+                    status={project.data.status}
                 />
             ))
         }

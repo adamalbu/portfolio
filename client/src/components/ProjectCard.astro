@@ -1,11 +1,33 @@
 ---
-const { title, link, description } = Astro.props;
+const { title, link, description, status } = Astro.props;
+
+let color = "red-500"; // Default color
+
+switch (status) {
+    case "Pre-alpha":
+        color = "bg-primary/50";
+        break;
+    case "Alpha":
+        color = "bg-secondary/50";
+        break;
+    case "Beta":
+        color = "bg-accent/50";
+        break;
+    case "Release":
+        color = "bg-lime-500/50";
+        break;
+    default:
+        color = "bg-red-500/50";
+}
 ---
 
 <a
     class="bg-primary/10 p-5 rounded-2xl w-50 transition-transform hover:scale-110 motion-reduce:hover:transform-none"
     href={link}
 >
-    <h1 class="text-center font-bold text-xl">{title}</h1>
-    <p>{description}</p>
+    <h1 class="font-bold text-xl">{title}</h1>
+    <p class={`${color} text-sm font-semibold rounded-lg px-2 py-1 mt-2 w-fit`}>
+        {status}
+    </p>
+    <p class="mt-4">{description}</p>
 </a>
