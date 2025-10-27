@@ -7,7 +7,7 @@ const projects: CollectionEntry<"projects">[] = await getCollection("projects");
 ---
 
 <Layout>
-    <div class="flex space-x-5">
+    <div class="grid grid-cols-1 lg:grid-cols-2 md:px-20 lg:px-30 xl:px-50 gap-5 w-full">
         {
             projects.map((project) => (
                 <ProjectCard
