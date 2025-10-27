@@ -1,24 +1,6 @@
 ---
+import ProjectChip from "./ProjectChip.astro";
 const { title, link, description, status } = Astro.props;
-
-let style = "red-500"; // Default color
-
-switch (status) {
-    case "Pre-alpha":
-        style = "bg-primary/50 border-primary/70";
-        break;
-    case "Alpha":
-        style = "bg-secondary/50 border-secondary/70";
-        break;
-    case "Beta":
-        style = "bg-accent/50 border-accent/70";
-        break;
-    case "Release":
-        style = "bg-lime-500/50 border-lime-500/70";
-        break;
-    default:
-        style = "bg-red-500/50 border-red-500";
-}
 ---
 
 <a
@@ -28,11 +10,7 @@ switch (status) {
 >
     <div class="md:flex md:justify-between md:items-center">
         <h1 class="font-bold text-xl">{title}</h1>
-        <p
-            class={`border ${style} text-sm font-semibold rounded-lg px-2 py-1 mt-2 md:mt-0 w-fit`}
-        >
-            {status}
-        </p>
+        <ProjectChip status={status} />
     </div>
     <p class="mt-4">{description}</p>
 </a>
