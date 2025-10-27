@@ -1,12 +1,4 @@
 @import "tailwindcss";
-/*
-@theme {
-    --color-text: oklch(93.41% 0.021 17.53);
-    --color-background: oklch(14.74% 0.023 26.57);
-    --color-primary: oklch(74.31% 0.088 23.78);
-    --color-secondary: oklch(49.19% 0.085 65.14);
-    --color-accent: oklch(76.14% 0.106 86.53);
-}*/
 
 @layer base {
     @theme {
@@ -46,18 +38,4 @@ body {
 ::selection {
     background-color: var(--color-primary);
     color: var(--color-background);
-}
-
-hr {
-    @apply mb-2;
-    color: var(--color-text);
-    opacity: 0.5;
-}
-
-h1 {
-    @apply text-3xl text-primary font-semibold;
-}
-
-h2 {
-    @apply text-2xl text-primary font-semibold mt-4;
 }
