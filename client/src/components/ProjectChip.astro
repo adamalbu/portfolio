@@ -1,5 +1,5 @@
 ---
-const { status } = Astro.props;
+const { status, class: extraClasses } = Astro.props;
 
 let style = "red-500";
 
@@ -22,7 +22,7 @@ switch (status) {
 ---
 
 <p
-    class={`border ${style} text-sm font-semibold rounded-lg px-2 py-1 mt-2 md:mt-0 w-fit h-fit`}
+    class={`border ${style} text-sm font-semibold rounded-lg px-2 py-1 md:mt-0 w-fit h-fit ${extraClasses}`}
 >
     {status}
 </p>

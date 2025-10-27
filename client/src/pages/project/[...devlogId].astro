@@ -1,0 +1,64 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ProjectChip from "../../components/ProjectChip.astro";
+
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+    const devlogs = await getCollection("devlogs");
+    return devlogs.map((devlog) => ({
+        params: { devlogId: devlog.id },
+        props: { devlog },
+    }));
+}
+
+const { devlog } = Astro.props;
+const date = devlog.data.date.toLocaleDateString("en-US", {
+    month: "2-digit",
+    day: "2-digit",
+    year: "numeric",
+});
+
+const projects = await getCollection(
+    "projects",
+    (project) => project.id === devlog.data.project,
+);
+const project = projects[0];
+const { Content } = await render(devlog);
+---
+
+<Layout>
+    <style>
+        .mdx-content :global(a) {
+            color: var(--color-primary);
+        }
+
+        .mdx-content :global(a:hover) {
+            text-decoration: underline;
+            text-decoration-style: wavy;
+            text-decoration-thickness: 1px;
+        }
+    </style>
+    <div class="flex items-center opacity-70">
+        <a href={`/project/${project.id}`} class="link mr-2"
+            >{project.data.name}</a
+        >
+        <ProjectChip class="scale-90" status={project.data.status} />
+    </div>
+    <div
+        class="flex flex-col items-baseline md:flex-row md:items-center @container-normal w-fit"
+    >
+        <h1>
+            {devlog.data.title}
+        </h1>
+        <span
+            class="opacity-80 md:before:content-['•'] md:text-lg md:mt-1 md:ml-2"
+        >
+            {date}
+        </span>
+    </div>
+    <hr />
+    <div class="mdx-content">
+        <Content />
+    </div>
+</Layout>

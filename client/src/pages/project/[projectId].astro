@@ -1,0 +1,66 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ProjectChip from "../../components/ProjectChip.astro";
+
+import { getCollection, render } from "astro:content";
+
+const wordCount = 15;
+
+export async function getStaticPaths() {
+    const projects = await getCollection("projects");
+    return projects.map((project) => ({
+        params: { projectId: project.id },
+        props: { project },
+    }));
+}
+
+const { project } = Astro.props;
+
+const devlogs = await getCollection(
+    "devlogs",
+    (devlog) => devlog.data.project === project.id,
+);
+---
+
+<Layout>
+    <div class="flex items-end space-x-5">
+        <h1>{project.data.name}</h1>
+        <ProjectChip status={project.data.status} />
+    </div>
+    <p class="text-text/80">{project.data.description}</p>
+    <hr />
+    <h2>Devlogs</h2>
+    <ul class="px-5 text-text">
+        <hr class="mt-3" />
+        {
+            devlogs.map((devlog) => {
+                const formattedDate = devlog.data.date.toLocaleDateString(
+                    "en-US",
+                    {
+                        month: "2-digit",
+                        day: "2-digit",
+                        year: "numeric",
+                    },
+                );
+
+                const words = devlog.body?.replace(/^#.*$/gm, '').trim().split(/\s+/);
+                const firstWords = words?.slice(0, wordCount).join(' ') + ((words?.length ?? 0) > wordCount ? '...' : '');
+
+                return (
+                    <li class="py-2 px-4">
+                        <a href={`/project/${devlog.id}`} class="link">
+                            {devlog.data.title}
+                        </a>
+                        <span class="opacity-70 before:content-['•'] ml-0.5">
+                            {formattedDate}
+                        </span>
+                        <p class="text-text/70">
+                            {firstWords}
+                        </p>
+                    </li>
+                    <hr class="mt-2" />
+                );
+            })
+        }
+    </ul>
+</Layout>
