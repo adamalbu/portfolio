@@ -1,0 +1,23 @@
+---
+title: "Making it do something"
+date: 2025-10-31
+project: fmm
+---
+
+Hey! This time, I wanted to implement some actual file handling. However, as I only touched the code a while ago, I had to reacquaint myself with the mess that is my code.
+
+I eventually managed to understand how it works, and started to add some file handling. In my old code, I already had a few lines to open a folder picker, so I didn't have to reimplement that. However, I had a `save_path` variable which the folder picker dialog and the folder path entry read and wrote to. This was overcomplicating things and made it slightly less efficient, so I scrapped those lines of code and just used the folder path entry instead. Then, I needed to check if the folder that the user entered or chose actually exists, which was prettey simple. I also added a visual indicator telling the user that it does not exist. I did the same with checking if a folder is empty.
+
+After that, I made it generate an `info.json` into the folder:
+
+<img src="/fmm/devlogs/SS-2025-10-31-files.png" alt="New Project Dialog Box" style="width: 700px; margin-right: 15px;" />
+
+Opening it shows that it generated mostly valid json:
+
+<img src="/fmm/devlogs/SS-2025-10-31-mousepad-1.png" alt="New Project Dialog Box" style="width: 700px; margin-right: 15px;" />
+
+The only problem was a trailing comma on the penultimate line. This was as simple as deleting a character from the code and now it generates valid json:
+
+<img src="/fmm/devlogs/SS-2025-10-31-mousepad-2.png" alt="New Project Dialog Box" style="width: 700px; margin-right: 15px;" />
+
+That's it for now. Next time, I think I'm going to focus on refactoring and testing.

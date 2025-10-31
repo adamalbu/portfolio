@@ -1,26 +1,8 @@
 [
   {
-    "id": "project",
-    "name": "Project",
-    "description": "Lorem ipsum",
+    "id": "fmm",
+    "name": "Factorio Mod Maker",
+    "description": "An app built in Rust designed to make Factorio modding even easier using a GUI.",
     "status": "Pre-alpha"
-  },
-  {
-    "id": "alpha-project",
-    "name": "Alpha Project",
-    "description": "A project in the alpha stage",
-    "status": "Alpha"
-  },
-  {
-    "id": "project-two",
-    "name": "Longer Project",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    "status": "Beta"
-  },
-  {
-    "id": "complete-project",
-    "name": "Complete Project",
-    "description": "A project that has been completed and is in release",
-    "status": "Release"
   }
 ]

@@ -29,6 +29,7 @@ const { Content } = await render(devlog);
 
 <Layout>
     <style>
+        @import "tailwindcss";
         .mdx-content :global(a) {
             color: var(--color-primary);
         }
@@ -37,6 +38,10 @@ const { Content } = await render(devlog);
             text-decoration: underline;
             text-decoration-style: wavy;
             text-decoration-thickness: 1px;
+        }
+
+        .mdx-content :global(p) {
+            @apply mb-4;
         }
     </style>
     <div class="flex items-center opacity-70">

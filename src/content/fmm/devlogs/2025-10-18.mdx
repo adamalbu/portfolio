@@ -1,0 +1,34 @@
+---
+title: "The Beginning"
+date: 2025-10-18
+project: fmm
+---
+
+## Summary of the project
+Hi. This project is a GUI application made to make modding in [Factorio](https://www.factorio.com/) even easier.
+I started making this in [Rust](https://rust-lang.org/) because of its roubst error handling, speed, and the fact that it's just more modern and well thought out.
+I am using [GTK](https://www.gtk.org/) as it has official bindings for rust at [gtk-rs](https://gtk-rs.org/) and because of its much more polished look compared to [Qt's](https://www.qt.io/) default.
+
+## Progress
+I haven't made much progress so far. Admittedly, I've only been working on it for a day.
+
+So far, I've made a dialog box to enter the information for the project. It currently looks like this:
+
+<img src="/fmm/devlogs/SS-2025-10-28.png" alt="New Project Dialog Box" style="width: 500px; float: left; margin-right: 15px;" />
+
+Pressing the `Ok` button generates some json to the console, like this:
+```json
+{
+    "name": "factorio-maker-first-mod",
+    "version": "0.0.1",
+    "title": "Factorio Maker First Mod",
+    "author": "Adam",
+    "contact": "contact@adamprojects.net",
+    "homepage": "adamprojects.net/project/fmm",
+    "description": "The first mod made with FMM",
+    "factorio_version": "2.0",
+}
+```
+That's it. There's no file reading or writing yet, just console text.
+
+This follows [Factorio's info.json](https://lua-api.factorio.com/latest/auxiliary/mod-structure.html#info.json). I haven't added the ability to add dependencies to the info.json I don't know, yet, how I would implement dependencies on other mods. I also haven't included dependencies for Space Age exapansion features for the same reason, and I haven't bought the Space Age expansion.
