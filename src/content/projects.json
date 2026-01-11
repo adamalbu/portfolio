@@ -4,5 +4,11 @@
     "name": "Factorio Mod Maker",
     "description": "An app built in Rust designed to make Factorio modding even easier using a GUI.",
     "status": "Pre-alpha"
+  },
+  {
+    "id": "tictactoe-windows",
+    "name": "Tic Tac Toe (Windows)",
+    "description": "A simple tic tac toe game made with Windows Forms.",
+    "status": "Release"
   }
 ]
