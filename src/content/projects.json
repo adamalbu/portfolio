@@ -9,6 +9,7 @@
     "id": "tictactoe-windows",
     "name": "Tic Tac Toe (Windows)",
     "description": "A simple tic tac toe game made with Windows Forms.",
+    "source": "https://github.com/adamalbu/TicTacToe-Windows",
     "status": "Release"
   }
 ]

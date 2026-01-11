@@ -29,6 +29,8 @@ const devlogs = await getCollection(
     </div>
     <p class="text-text/80">{project.data.description}</p>
     <hr />
+    {project.data.source && <p>Source: <a href={project.data.source} class="link text-accent">{project.data.source}</a></p>}
+    { devlogs.length != 0 &&
     <h2>Devlogs</h2>
     <ul class="px-5 text-text">
         <hr class="mt-3" />
@@ -48,7 +50,7 @@ const devlogs = await getCollection(
 
                 return (
                     <li class="py-2 px-4">
-                        <a href={`/project/${devlog.id}`} class="link">
+                        <a href={`/project/${devlog.id}`} class="subtle-link">
                             {devlog.data.title}
                         </a>
                         <span class="opacity-70 before:content-['•'] ml-0.5">
@@ -63,4 +65,5 @@ const devlogs = await getCollection(
             })
         }
     </ul>
+    }
 </Layout>
