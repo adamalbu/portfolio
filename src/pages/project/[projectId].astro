@@ -2,7 +2,8 @@
 import Layout from "../../layouts/Layout.astro";
 import ProjectChip from "../../components/ProjectChip.astro";
 
-import { getCollection, render } from "astro:content";
+import {readFile} from "node:fs/promises";
+import { getCollection } from "astro:content";
 
 const wordCount = 15;
 
@@ -16,6 +17,14 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 
+// import * as module from "../../../src/content/fmm/extra.md";
+
+let Extra = null
+try {
+const module = await import(`../../../src/content/${project.data.id}/extra.md`);
+Extra = module.Content;
+} catch {}
+
 const devlogs = await getCollection(
     "devlogs",
     (devlog) => devlog.data.project === project.id,
@@ -23,12 +32,40 @@ const devlogs = await getCollection(
 ---
 
 <Layout>
+    <style>
+        @import "tailwindcss";
+        .md-content :global(a) {
+            color: var(--color-primary);
+        }
+
+        .md-content :global(a:hover) {
+            text-decoration: underline;
+            text-decoration-style: wavy;
+            text-decoration-thickness: 1px;
+        }
+
+        .md-content :global(ul) {
+            list-style-position: inside;
+        }
+
+        .md-content :global(li::before) {
+            content: "- ";
+            margin-left: 4px;
+        }
+
+        .md-content :global(p) {
+            @apply mb-4;
+        }
+    </style>
     <div class="flex items-end space-x-5">
         <h1>{project.data.name}</h1>
         <ProjectChip status={project.data.status} />
     </div>
     <p class="text-text/80">{project.data.description}</p>
     <hr />
+    {project.data.source && <p>Source: <a href={project.data.source} class="link text-accent">{project.data.source}</a></p>}
+    { Extra != null && <div class="md-content"><Extra /></div> }
+    { devlogs.length != 0 &&
     <h2>Devlogs</h2>
     <ul class="px-5 text-text">
         <hr class="mt-3" />
@@ -48,7 +85,7 @@ const devlogs = await getCollection(
 
                 return (
                     <li class="py-2 px-4">
-                        <a href={`/project/${devlog.id}`} class="link">
+                        <a href={`/project/${devlog.id}`} class="subtle-link">
                             {devlog.data.title}
                         </a>
                         <span class="opacity-70 before:content-['•'] ml-0.5">
@@ -63,4 +100,5 @@ const devlogs = await getCollection(
             })
         }
     </ul>
+    }
 </Layout>

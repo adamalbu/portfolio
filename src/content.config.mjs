@@ -7,6 +7,7 @@ const projects = defineCollection({
     id: z.string(),
     name: z.string(),
     description: z.string(),
+    source: z.optional(z.string()),
     status: z.enum(["Pre-alpha", "Alpha", "Beta", "Release"]),
   }),
 });
