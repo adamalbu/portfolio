@@ -44,6 +44,15 @@ const devlogs = await getCollection(
             text-decoration-thickness: 1px;
         }
 
+        .md-content :global(ul) {
+            list-style-position: inside;
+        }
+
+        .md-content :global(li::before) {
+            content: "- ";
+            margin-left: 4px;
+        }
+
         .md-content :global(p) {
             @apply mb-4;
         }

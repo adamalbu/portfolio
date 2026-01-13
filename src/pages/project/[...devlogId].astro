@@ -40,6 +40,15 @@ const { Content } = await render(devlog);
             text-decoration-thickness: 1px;
         }
 
+        .mdx-content :global(ul) {
+            list-style-position: inside;
+        }
+
+        .mdx-content :global(li::before) {
+            content: "- ";
+            margin-left: 4px;
+        }
+
         .mdx-content :global(p) {
             @apply mb-4;
         }
