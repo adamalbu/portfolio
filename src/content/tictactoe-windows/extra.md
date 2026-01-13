@@ -4,3 +4,5 @@ This is a simple two-player tic tac toe game made using Windows Forms.
 - Score counter
 - A clear button
 - Customiseable colours
+
+![image](/tictactoe-windows/screenshot.png)
